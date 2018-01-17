@@ -327,7 +327,7 @@ popd
 
 %files -n python-perf
 %license linux-%{kversion}/COPYING
-%{python_sitearch}
+%{python2_sitearch}
 
 %files -n kernel-tools -f cpupower.lang
 %{_bindir}/cpupower
