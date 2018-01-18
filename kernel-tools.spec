@@ -135,10 +135,11 @@ License: GPLv2
 This package contains the perf tool, which enables performance monitoring
 of the Linux kernel.
 
-%package -n python-perf
+%package -n python2-perf
 Summary: Python bindings for apps which will manipulate perf events
-%description -n python-perf
-The python-perf package contains a module that permits applications
+%{?python_provide:%python_provide python2-perf}
+%description -n python2-perf
+The python2-perf package contains a module that permits applications
 written in the Python programming language to use the interface
 to manipulate perf events.
 
@@ -325,7 +326,7 @@ popd
 %doc linux-%{kversion}/tools/perf/Documentation/examples.txt
 %license linux-%{kversion}/COPYING
 
-%files -n python-perf
+%files -n python2-perf
 %license linux-%{kversion}/COPYING
 %{python2_sitearch}
 
