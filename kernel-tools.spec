@@ -122,7 +122,6 @@ Obsoletes: cpufreq-utils < 1:009-0.6.p1
 Obsoletes: cpufrequtils < 1:009-0.6.p1
 Obsoletes: cpuspeed < 1:1.5-16
 Requires: kernel-tools-libs = %{version}-%{release}
-%global __requires_exclude ^%{_bindir}/python
 %description -n kernel-tools
 This package contains the tools/ directory from the kernel source
 and the supporting documentation.
@@ -185,6 +184,9 @@ cd linux-%{kversion}
 %patch6 -p1
 
 # END OF PATCH APPLICATIONS
+
+# Explicitly use Python 3 for kvm_stat
+sed -i '1s=^#!/usr/bin/python=#!%{__python3}=' tools/kvm/kvm_stat/kvm_stat
 
 ###
 ### build
