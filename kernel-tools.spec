@@ -5,7 +5,7 @@
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
 %global released_kernel 0
-%global baserelease 1
+%global baserelease 2
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
@@ -369,6 +369,9 @@ popd
 %{_includedir}/cpuidle.h
 
 %changelog
+* Sat Jan 20 2018 Björn Esser <besser82@fedoraproject.org> - 4.15.0-0.rc8.git0.2
+- Rebuilt for switch to libxcrypt
+
 * Tue Jan 16 2018 Laura Abbott <labbott@redhat.com> - 4.15.0-0.rc8.git0.1
 - Linux 4.15-rc8
 
