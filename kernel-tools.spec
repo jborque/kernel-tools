@@ -67,7 +67,7 @@ BuildRequires: bzip2, xz, findutils, gzip, m4, perl-interpreter, perl(Carp), per
 BuildRequires: gcc, binutils, redhat-rpm-config, hmaccalc
 BuildRequires: net-tools, hostname, bc, elfutils-devel
 BuildRequires: zlib-devel binutils-devel newt-devel python2-devel perl(ExtUtils::Embed) bison flex xz-devel
-BuildRequires: audit-libs-devel
+BuildRequires: audit-libs-devel glibc-devel glibc-static
 %ifnarch s390x %{arm}
 BuildRequires: numactl-devel
 %endif
