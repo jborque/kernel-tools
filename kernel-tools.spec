@@ -62,6 +62,9 @@
 %undefine _include_gdb_index
 %undefine _include_minidebuginfo
 
+# perf needs this
+%undefine _strict_symbol_defs_build
+
 BuildRequires: kmod, patch, bash, tar, git
 BuildRequires: bzip2, xz, findutils, gzip, m4, perl-interpreter, perl(Carp), perl-devel, perl-generators, make, diffutils, gawk
 BuildRequires: gcc, binutils, redhat-rpm-config, hmaccalc
