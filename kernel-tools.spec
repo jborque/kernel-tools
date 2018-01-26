@@ -133,7 +133,6 @@ and the supporting documentation.
 %package -n perf
 Summary: Performance monitoring for the Linux kernel
 License: GPLv2
-ExcludeArch: i686
 %description -n perf
 This package contains the perf tool, which enables performance monitoring
 of the Linux kernel.
@@ -141,7 +140,6 @@ of the Linux kernel.
 %package -n python2-perf
 Summary: Python bindings for apps which will manipulate perf events
 %{?python_provide:%python_provide python2-perf}
-ExcludeArch: i686
 %description -n python2-perf
 The python2-perf package contains a module that permits applications
 written in the Python programming language to use the interface
