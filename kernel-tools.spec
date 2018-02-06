@@ -112,6 +112,7 @@ Patch4: 0001-tools-lib-Remove-FSF-address.patch
 Patch5: 0001-tools-power-Don-t-make-man-pages-executable.patch
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
 Patch7: 0001-tools-lib-subcmd-pager.c-do-not-alias-select-params.patch
+Patch8: 0001-Switch-to-python3.patch
 Name: kernel-tools
 Summary: Assortment of tools for the Linux kernel
 License: GPLv2
@@ -187,11 +188,9 @@ cd linux-%{kversion}
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 # END OF PATCH APPLICATIONS
-
-# Explicitly use Python 3 for kvm_stat
-sed -i '1s=^#!/usr/bin/python=#!%{__python3}=' tools/kvm/kvm_stat/kvm_stat
 
 ###
 ### build
