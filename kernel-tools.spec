@@ -4,7 +4,7 @@
 # For a stable, released kernel, released_kernel should be 1. For rawhide
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
-%global released_kernel 1
+%global released_kernel 0
 %global baserelease 1
 %global fedora_build %{baserelease}
 
@@ -30,7 +30,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 0
+%global rcrev 1
 # Set rpm version accordingly
 %global rpmversion 4.%{upstream_sublevel}.0
 %endif
@@ -106,12 +106,10 @@ Patch0: 0001-iio-Use-event-header-from-kernel-tree.patch
 
 # rpmlint cleanup
 Patch1: 0001-perf-Remove-FSF-address.patch
-Patch2: 0001-cpupower-Remove-FSF-address.patch
 Patch3: 0001-tools-include-Sync-vmx.h-header-for-FSF-removal.patch
 Patch4: 0001-tools-lib-Remove-FSF-address.patch
 Patch5: 0001-tools-power-Don-t-make-man-pages-executable.patch
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
-Patch7: 0001-tools-lib-subcmd-pager.c-do-not-alias-select-params.patch
 Patch8: 0001-Switch-to-python3.patch
 Name: kernel-tools
 Summary: Assortment of tools for the Linux kernel
@@ -182,12 +180,10 @@ cd linux-%{kversion}
 
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 %patch8 -p1
 
 # END OF PATCH APPLICATIONS
