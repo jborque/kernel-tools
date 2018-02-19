@@ -30,7 +30,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 1
+%global rcrev 2
 # Set rpm version accordingly
 %global rpmversion 4.%{upstream_sublevel}.0
 %endif
@@ -369,6 +369,9 @@ popd
 %{_includedir}/cpuidle.h
 
 %changelog
+* Mon Feb 19 2018 Jeremy Cline <jeremy@jcline.org> - 4.16.0-0.rc2.git0.1
+- Linux 4.16-rc2
+
 * Mon Jan 29 2018 Laura Abbott <labbott@redhat.com> - 4.15.0-1
 - Linux v4.15
 
