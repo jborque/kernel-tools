@@ -111,6 +111,7 @@ Patch4: 0001-tools-lib-Remove-FSF-address.patch
 Patch5: 0001-tools-power-Don-t-make-man-pages-executable.patch
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
 Patch8: 0001-Switch-to-python3.patch
+Patch9: 0001-Comment-out-print-triggering-gcc-8-warning.patch
 Name: kernel-tools
 Summary: Assortment of tools for the Linux kernel
 License: GPLv2
@@ -185,6 +186,7 @@ cd linux-%{kversion}
 %patch5 -p1
 %patch6 -p1
 %patch8 -p1
+%patch9 -p1
 
 # END OF PATCH APPLICATIONS
 
