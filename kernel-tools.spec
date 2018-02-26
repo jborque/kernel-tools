@@ -30,7 +30,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 2
+%global rcrev 3
 # Set rpm version accordingly
 %global rpmversion 4.%{upstream_sublevel}.0
 %endif
@@ -111,7 +111,6 @@ Patch4: 0001-tools-lib-Remove-FSF-address.patch
 Patch5: 0001-tools-power-Don-t-make-man-pages-executable.patch
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
 Patch8: 0001-Switch-to-python3.patch
-Patch9: 0001-Comment-out-print-triggering-gcc-8-warning.patch
 Name: kernel-tools
 Summary: Assortment of tools for the Linux kernel
 License: GPLv2
@@ -186,7 +185,6 @@ cd linux-%{kversion}
 %patch5 -p1
 %patch6 -p1
 %patch8 -p1
-%patch9 -p1
 
 # END OF PATCH APPLICATIONS
 
@@ -371,6 +369,9 @@ popd
 %{_includedir}/cpuidle.h
 
 %changelog
+* Mon Feb 26 2018 Jeremy Cline <jeremy@jcline.org> - 4.16.0-0.rc3.git0.1
+- Linux 4.16-rc3
+
 * Mon Feb 19 2018 Jeremy Cline <jeremy@jcline.org> - 4.16.0-0.rc2.git0.1
 - Linux 4.16-rc2
 
