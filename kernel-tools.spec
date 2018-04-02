@@ -4,14 +4,14 @@
 # For a stable, released kernel, released_kernel should be 1. For rawhide
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
-%global released_kernel 0
+%global released_kernel 1
 %global baserelease 1
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
 # on top of -- for example, 3.1-rc7-git1 starts with a 3.0 base,
 # which yields a base_sublevel of 0.
-%global base_sublevel 15
+%global base_sublevel 16
 
 ## If this is a released kernel ##
 %if 0%{?released_kernel}
@@ -30,7 +30,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 7
+%global rcrev 0
 # Set rpm version accordingly
 %global rpmversion 4.%{upstream_sublevel}.0
 %endif
@@ -391,6 +391,10 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Apr 02 2018 Jeremy Cline <jeremy@jcline.org> - 4.16.0-1
+- Linux 4.16
+- New bpftool sub-package
+
 * Mon Mar 26 2018 Jeremy Cline <jeremy@jcline.org> - 4.16.0-0.rc7.git0.1
 - Linux 4.16-rc7
 
