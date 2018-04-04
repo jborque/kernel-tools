@@ -71,6 +71,7 @@ BuildRequires: gcc, binutils, redhat-rpm-config, hmaccalc
 BuildRequires: net-tools, hostname, bc, elfutils-devel
 BuildRequires: zlib-devel binutils-devel newt-devel python2-devel python2-docutils perl(ExtUtils::Embed) bison flex xz-devel
 BuildRequires: audit-libs-devel glibc-devel glibc-static
+BuildRequires: asciidoc xmlto
 %ifnarch s390x %{arm}
 BuildRequires: numactl-devel
 %endif
@@ -81,7 +82,6 @@ BuildRequires: rpm-build, elfutils
 BuildRequires: systemd
 
 Source0: https://www.kernel.org/pub/linux/kernel/v4.x/linux-%{kversion}.tar.xz
-Source10: perf-man-%{kversion}.tar.gz
 
 # Sources for kernel-tools
 Source2000: cpupower.service
@@ -244,6 +244,14 @@ pushd tools/bpf/bpftool
 make
 popd
 
+# Build the docs
+pushd tools/kvm/kvm_stat/
+make %{?_smp_mflags} man
+popd
+pushd tools/perf/Documentation/
+make %{?_smp_mflags} man
+popd
+
 ###
 ### install
 ###
@@ -263,10 +271,9 @@ rm -rf %{buildroot}%{_docdir}/perf-tip
 %{perf_make} DESTDIR=%{buildroot} install-python_ext
 
 # perf man pages (note: implicit rpm magic compresses them later)
-mkdir -p %{buildroot}/%{_mandir}/man1
-pushd %{buildroot}/%{_mandir}/man1
-tar -xf %{SOURCE10}
-popd
+install -d %{buildroot}/%{_mandir}/man1
+install -pm0644 tools/kvm/kvm_stat/kvm_stat.1 %{buildroot}/%{_mandir}/man1/
+install -pm0644 tools/perf/Documentation/*.1 %{buildroot}/%{_mandir}/man1/
 
 make -C tools/power/cpupower DESTDIR=%{buildroot} libdir=%{_libdir} mandir=%{_mandir} CPUFREQ_BENCH=false install
 rm -f %{buildroot}%{_libdir}/*.{a,la}
