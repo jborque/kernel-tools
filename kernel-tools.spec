@@ -30,7 +30,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 2
+%global rcrev 4
 # Set rpm version accordingly
 %global rpmversion 4.%{upstream_sublevel}.0
 %endif
@@ -398,6 +398,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon May 07 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.0-0.rc4.git0.1
+- Linux v4.17-rc4
+
 * Mon Apr 23 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.0-0.rc2.git0.1
 - Linux v4.17-rc2
 
