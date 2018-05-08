@@ -70,7 +70,7 @@ BuildRequires: bzip2, xz, findutils, gzip, m4, perl-interpreter, perl(Carp), per
 BuildRequires: gcc, binutils, redhat-rpm-config, hmaccalc
 BuildRequires: net-tools, hostname, bc, elfutils-devel
 BuildRequires: zlib-devel binutils-devel newt-devel python2-devel python2-docutils perl(ExtUtils::Embed) bison flex xz-devel
-BuildRequires: audit-libs-devel glibc-devel glibc-static
+BuildRequires: audit-libs-devel glibc-devel glibc-static python3-devel
 BuildRequires: asciidoc xmlto
 %ifnarch s390x %{arm}
 BuildRequires: numactl-devel
@@ -137,13 +137,22 @@ License: GPLv2
 This package contains the perf tool, which enables performance monitoring
 of the Linux kernel.
 
+%global python-perf-sum Python bindings for apps which will manipulate perf events
+%global python-perf-desc A Python module that permits applications \
+written in the Python programming language to use the interface \
+to manipulate perf events.
+
 %package -n python2-perf
-Summary: Python bindings for apps which will manipulate perf events
+Summary: %{python-perf-sum}
 %{?python_provide:%python_provide python2-perf}
 %description -n python2-perf
-The python2-perf package contains a module that permits applications
-written in the Python programming language to use the interface
-to manipulate perf events.
+%{python-perf-desc}
+
+%package -n python3-perf
+Summary: %{python-perf-sum}
+%{?python_provide:%python_provide python3-perf}
+%description -n python3-perf
+%{python-perf-desc}
 
 %package -n kernel-tools-libs
 Summary: Libraries for the kernels-tools
@@ -195,6 +204,8 @@ cd linux-%{kversion}
 
 # END OF PATCH APPLICATIONS
 
+cp -a tools/perf tools/python3-perf
+
 ###
 ### build
 ###
@@ -203,11 +214,15 @@ cd linux-%{kversion}
 cd linux-%{kversion}
 
 %global perf_make \
-  make -s EXTRA_CFLAGS="${RPM_OPT_FLAGS}" LDFLAGS="%{__global_ldflags}" %{?cross_opts} -C tools/perf V=1 NO_PERF_READ_VDSO32=1 NO_PERF_READ_VDSOX32=1 WERROR=0 NO_LIBUNWIND=1 HAVE_CPLUS_DEMANGLE=1 NO_GTK2=1 NO_STRLCPY=1 NO_BIONIC=1 NO_JVMTI=1 prefix=%{_prefix}
+  make EXTRA_CFLAGS="${RPM_OPT_FLAGS}" LDFLAGS="%{__global_ldflags}" %{?cross_opts} V=1 NO_PERF_READ_VDSO32=1 NO_PERF_READ_VDSOX32=1 WERROR=0 NO_LIBUNWIND=1 HAVE_CPLUS_DEMANGLE=1 NO_GTK2=1 NO_STRLCPY=1 NO_BIONIC=1 NO_JVMTI=1 prefix=%{_prefix}
+%global perf_python2 -C tools/perf PYTHON=%{__python2}
+%global perf_python3 -C tools/python3-perf PYTHON=%{__python3}
 # perf
 # make sure check-headers.sh is executable
 chmod +x tools/perf/check-headers.sh
-%{perf_make} all
+chmod +x tools/python3-perf/check-headers.sh
+%{perf_make} %{perf_python2} all
+%{perf_make} %{perf_python3} all
 
 # cpupower
 # make sure version-gen.sh is executable.
@@ -261,14 +276,15 @@ popd
 cd linux-%{kversion}
 
 # perf tool binary and supporting scripts/binaries
-%{perf_make} DESTDIR=%{buildroot} lib=%{_lib} install-bin install-traceevent-plugins
+%{perf_make} %{perf_python2} DESTDIR=%{buildroot} lib=%{_lib} install-bin install-traceevent-plugins
 # remove the 'trace' symlink.
 rm -f %{buildroot}%{_bindir}/trace
 # remove the perf-tips
 rm -rf %{buildroot}%{_docdir}/perf-tip
 
 # python-perf extension
-%{perf_make} DESTDIR=%{buildroot} install-python_ext
+%{perf_make} %{perf_python3} DESTDIR=%{buildroot} install-python_ext
+%{perf_make} %{perf_python2} DESTDIR=%{buildroot} install-python_ext
 
 # perf man pages (note: implicit rpm magic compresses them later)
 install -d %{buildroot}/%{_mandir}/man1
@@ -350,7 +366,11 @@ popd
 
 %files -n python2-perf
 %license linux-%{kversion}/COPYING
-%{python2_sitearch}
+%{python2_sitearch}/*
+
+%files -n python3-perf
+%license linux-%{kversion}/COPYING
+%{python3_sitearch}/*
 
 %files -n kernel-tools -f cpupower.lang
 %{_bindir}/cpupower
