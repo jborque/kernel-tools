@@ -4,7 +4,7 @@
 # For a stable, released kernel, released_kernel should be 1. For rawhide
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
-%global released_kernel 1
+%global released_kernel 0
 %global baserelease 1
 %global fedora_build %{baserelease}
 
@@ -30,7 +30,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 0
+%global rcrev 1
 # Set rpm version accordingly
 %global rpmversion 4.%{upstream_sublevel}.0
 %endif
@@ -108,7 +108,6 @@ Patch0: 0001-iio-Use-event-header-from-kernel-tree.patch
 Patch1: 0001-perf-Remove-FSF-address.patch
 Patch3: 0001-tools-include-Sync-vmx.h-header-for-FSF-removal.patch
 Patch4: 0001-tools-lib-Remove-FSF-address.patch
-Patch5: 0001-tools-power-Don-t-make-man-pages-executable.patch
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
 Patch8: 0001-Switch-to-python3.patch
 Name: kernel-tools
@@ -198,7 +197,6 @@ cd linux-%{kversion}
 %patch1 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 %patch6 -p1
 %patch8 -p1
 
@@ -281,6 +279,15 @@ cd linux-%{kversion}
 rm -f %{buildroot}%{_bindir}/trace
 # remove the perf-tips
 rm -rf %{buildroot}%{_docdir}/perf-tip
+
+# For both of the below, yes, this should be using a macro but right now
+# it's hard coded and we don't actually want it anyway right now.
+# Whoever wants examples can fix it up!
+
+# remove examples
+rm -rf %{buildroot}/usr/lib/examples/perf
+# remove the stray header file that somehow got packaged in examples
+rm -rf %{buildroot}/usr/lib/include/perf/bpf/bpf.h
 
 # python-perf extension
 %{perf_make} %{perf_python3} DESTDIR=%{buildroot} install-python_ext
@@ -414,10 +421,14 @@ popd
 %{_mandir}/man8/bpftool-cgroup.8.gz
 %{_mandir}/man8/bpftool-map.8.gz
 %{_mandir}/man8/bpftool-prog.8.gz
+%{_mandir}/man8/bpftool-perf.8.gz
 %{_mandir}/man8/bpftool.8.gz
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Jun 18 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-0.rc1.git0.1
+- Linux v4.18-rc1
+
 * Mon Jun 04 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.0-1
 - Linux v4.17
 
