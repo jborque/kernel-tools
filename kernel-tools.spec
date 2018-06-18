@@ -136,22 +136,22 @@ License: GPLv2
 This package contains the perf tool, which enables performance monitoring
 of the Linux kernel.
 
-%global python-perf-sum Python bindings for apps which will manipulate perf events
-%global python-perf-desc A Python module that permits applications \
+%global pythonperfsum Python bindings for apps which will manipulate perf events
+%global pythonperfdesc A Python module that permits applications \
 written in the Python programming language to use the interface \
 to manipulate perf events.
 
 %package -n python2-perf
-Summary: %{python-perf-sum}
+Summary: %{pythonperfsum}
 %{?python_provide:%python_provide python2-perf}
 %description -n python2-perf
-%{python-perf-desc}
+%{pythonperfdesc}
 
 %package -n python3-perf
-Summary: %{python-perf-sum}
+Summary: %{pythonperfsum}
 %{?python_provide:%python_provide python3-perf}
 %description -n python3-perf
-%{python-perf-desc}
+%{pythonperfdesc}
 
 %package -n kernel-tools-libs
 Summary: Libraries for the kernels-tools
