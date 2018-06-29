@@ -5,7 +5,7 @@
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
 %global released_kernel 0
-%global baserelease 2
+%global baserelease 3
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
@@ -110,6 +110,7 @@ Patch3: 0001-tools-include-Sync-vmx.h-header-for-FSF-removal.patch
 Patch4: 0001-tools-lib-Remove-FSF-address.patch
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
 Patch8: 0001-Switch-to-python3.patch
+Patch9: 0001-Filter-out-link-time-optimization.patch
 Name: kernel-tools
 Summary: Assortment of tools for the Linux kernel
 License: GPLv2
@@ -199,6 +200,7 @@ cd linux-%{kversion}
 %patch4 -p1
 %patch6 -p1
 %patch8 -p1
+%patch9 -p1
 
 # END OF PATCH APPLICATIONS
 
@@ -426,6 +428,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Fri Jun 29 2018 Jeremy Cline <jcline@redhat.com> - 4.18.0-0.rc2.git0.3
+- Fix the build for Python 3.7 (rhbz 1593431)
+
 * Fri Jun 29 2018 Jitka Plesnikova <jplesnik@redhat.com> - 4.18.0-0.rc2.git0.2
 - Perl 5.28 rebuild
 
