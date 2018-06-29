@@ -5,7 +5,7 @@
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
 %global released_kernel 0
-%global baserelease 1
+%global baserelease 2
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
@@ -426,6 +426,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Fri Jun 29 2018 Jitka Plesnikova <jplesnik@redhat.com> - 4.18.0-0.rc2.git0.2
+- Perl 5.28 rebuild
+
 * Mon Jun 25 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-0.rc2.git0.1
 - Linux v4.18-rc2
 
