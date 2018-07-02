@@ -30,7 +30,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 2
+%global rcrev 3
 # Set rpm version accordingly
 %global rpmversion 4.%{upstream_sublevel}.0
 %endif
@@ -428,6 +428,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Jul 02 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-0.rc3.git0.1
+- Linux v4.18-rc3
+
 * Fri Jun 29 2018 Jeremy Cline <jcline@redhat.com> - 4.18.0-0.rc2.git0.3
 - Fix the build for Python 3.7 (rhbz 1593431)
 
