@@ -30,7 +30,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 3
+%global rcrev 4
 # Set rpm version accordingly
 %global rpmversion 4.%{upstream_sublevel}.0
 %endif
@@ -428,6 +428,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Jul 09 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-0.rc4.git0.1
+- Linux v4.18-rc4
+
 * Tue Jul 03 2018 Petr Pisar <ppisar@redhat.com> - 4.18.0-0.rc3.git0.2
 - Perl 5.28 rebuild
 
