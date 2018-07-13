@@ -110,7 +110,7 @@ Patch3: 0001-tools-include-Sync-vmx.h-header-for-FSF-removal.patch
 Patch4: 0001-tools-lib-Remove-FSF-address.patch
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
 Patch8: 0001-Switch-to-python3.patch
-Patch9: 0001-Filter-out-link-time-optimization.patch
+Patch9: 0001-perf-Use-python-config-includes-rather-than-cflags.patch
 Name: kernel-tools
 Summary: Assortment of tools for the Linux kernel
 License: GPLv2
