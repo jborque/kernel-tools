@@ -5,7 +5,7 @@
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
 %global released_kernel 0
-%global baserelease 2
+%global baserelease 1
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
@@ -30,7 +30,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 4
+%global rcrev 5
 # Set rpm version accordingly
 %global rpmversion 4.%{upstream_sublevel}.0
 %endif
@@ -110,7 +110,6 @@ Patch3: 0001-tools-include-Sync-vmx.h-header-for-FSF-removal.patch
 Patch4: 0001-tools-lib-Remove-FSF-address.patch
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
 Patch8: 0001-Switch-to-python3.patch
-Patch9: 0001-perf-Use-python-config-includes-rather-than-cflags.patch
 Name: kernel-tools
 Summary: Assortment of tools for the Linux kernel
 License: GPLv2
@@ -200,7 +199,6 @@ cd linux-%{kversion}
 %patch4 -p1
 %patch6 -p1
 %patch8 -p1
-%patch9 -p1
 
 # END OF PATCH APPLICATIONS
 
@@ -428,6 +426,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Jul 16 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-0.rc5.git0.1
+- Linux v4.18-rc5
+
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 4.18.0-0.rc4.git0.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
