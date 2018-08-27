@@ -4,7 +4,7 @@
 # For a stable, released kernel, released_kernel should be 1. For rawhide
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
-%global released_kernel 1
+%global released_kernel 0
 %global baserelease 1
 %global fedora_build %{baserelease}
 
@@ -30,7 +30,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 0
+%global rcrev 1
 # Set rpm version accordingly
 %global rpmversion 4.%{upstream_sublevel}.0
 %endif
@@ -363,6 +363,7 @@ popd
 %files -n perf
 %{_bindir}/perf
 %dir %{_libdir}/traceevent
+%{_prefix}/lib/perf/
 %{_libdir}/traceevent/plugins/
 %{_libexecdir}/perf-core
 %{_datadir}/perf-core/
@@ -423,9 +424,13 @@ popd
 %{_mandir}/man8/bpftool-prog.8.gz
 %{_mandir}/man8/bpftool-perf.8.gz
 %{_mandir}/man8/bpftool.8.gz
+%{_mandir}/man7/bpf-helpers.7.gz
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Aug 27 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc1.git0.1
+- Linux v4.19-rc1
+
 * Mon Aug 13 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-1
 - Linux v4.18
 
