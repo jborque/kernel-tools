@@ -30,7 +30,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 2
+%global rcrev 3
 # Set rpm version accordingly
 %global rpmversion 4.%{upstream_sublevel}.0
 %endif
@@ -285,9 +285,9 @@ rm -rf %{buildroot}%{_docdir}/perf-tip
 # Whoever wants examples can fix it up!
 
 # remove examples
-rm -rf %{buildroot}/usr/lib/examples/perf
+rm -rf %{buildroot}/usr/lib/perf/examples
 # remove the stray header file that somehow got packaged in examples
-rm -rf %{buildroot}/usr/lib/include/perf/bpf/bpf.h
+rm -rf %{buildroot}/usr/lib/perf/include/bpf/
 
 # python-perf extension
 %{perf_make} %{perf_python3} DESTDIR=%{buildroot} install-python_ext
@@ -363,7 +363,6 @@ popd
 %files -n perf
 %{_bindir}/perf
 %dir %{_libdir}/traceevent
-%{_prefix}/lib/perf/
 %{_libdir}/traceevent/plugins/
 %{_libexecdir}/perf-core
 %{_datadir}/perf-core/
@@ -428,6 +427,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Sep 10 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc3.git0.1
+- Linux v4.19-rc3
+
 * Mon Sep 03 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc2.git0.1
 - Linux v4.19-rc2
 
