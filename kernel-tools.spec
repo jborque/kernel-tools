@@ -72,6 +72,8 @@ BuildRequires: net-tools, hostname, bc, elfutils-devel
 BuildRequires: zlib-devel binutils-devel newt-devel python2-devel python3-docutils perl(ExtUtils::Embed) bison flex xz-devel
 BuildRequires: audit-libs-devel glibc-devel glibc-static python3-devel
 BuildRequires: asciidoc xmlto
+# Used to mangle unversioned shebangs to be Python 3
+BuildRequires: /usr/bin/pathfix.py
 %ifnarch s390x %{arm}
 BuildRequires: numactl-devel
 %endif
@@ -201,6 +203,12 @@ cd linux-%{kversion}
 %patch8 -p1
 
 # END OF PATCH APPLICATIONS
+
+# Mangle /usr/bin/python shebangs to /usr/bin/python3
+# -p preserves timestamps
+# -n prevents creating ~backup files
+# -i specifies the interpreter for the shebang
+pathfix.py -pni "%{__python3} %{py3_shbang_opts}" tools/
 
 cp -a tools/perf tools/python3-perf
 
