@@ -30,7 +30,7 @@
 # The next upstream release sublevel (base_sublevel+1)
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 # The rc snapshot level
-%global rcrev 4
+%global rcrev 5
 # Set rpm version accordingly
 %global rpmversion 4.%{upstream_sublevel}.0
 %endif
@@ -427,6 +427,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Sep 24 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc5.git0.1
+- Linux v4.19-rc5
+
 * Mon Sep 17 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc4.git0.1
 - Linux v4.19-rc4
 
