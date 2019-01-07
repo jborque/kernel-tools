@@ -4,14 +4,14 @@
 # For a stable, released kernel, released_kernel should be 1. For rawhide
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
-%global released_kernel 1
+%global released_kernel 0
 %global baserelease 1
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
 # on top of -- for example, 3.1-rc7-git1 starts with a 3.0 base,
 # which yields a base_sublevel of 0.
-%global base_sublevel 20
+%global base_sublevel 0
 
 ## If this is a released kernel ##
 %if 0%{?released_kernel}
@@ -23,16 +23,18 @@
 %global stablerev %{stable_update}
 %global stable_base %{stable_update}
 %endif
-%global rpmversion 4.%{base_sublevel}.%{stable_update}
+%global rpmversion 5.%{base_sublevel}.%{stable_update}
 
 ## The not-released-kernel case ##
 %else
 # The next upstream release sublevel (base_sublevel+1)
-%global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
+# %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
+%global upstream_sublevel 0
+
 # The rc snapshot level
-%global rcrev 7
+%global rcrev 1
 # Set rpm version accordingly
-%global rpmversion 4.%{upstream_sublevel}.0
+%global rpmversion 5.%{upstream_sublevel}.0
 %endif
 # Nb: The above rcrev values automagically define Patch00 and Patch01 below.
 
@@ -55,7 +57,8 @@
 %endif
 
 # The kernel tarball/base version
-%global kversion 4.%{base_sublevel}
+# %global kversion 5.%{base_sublevel}
+%global kversion 5.%{base_sublevel}-rc%rcrev
 %global KVERREL %{version}-%{release}.%{_target_cpu}
 
 %global _debuginfo_subpackages 1
@@ -83,7 +86,8 @@ BuildRequires: rpm-build, elfutils
 %{?systemd_requires}
 BuildRequires: systemd
 
-Source0: https://www.kernel.org/pub/linux/kernel/v4.x/linux-%{kversion}.tar.xz
+# Source0: https://www.kernel.org/pub/linux/kernel/v4.x/linux-%{kversion}.tar.xz
+Source0: https://git.kernel.org/torvalds/t/linux-5.0-rc1.tar.gz
 
 # Sources for kernel-tools
 Source2000: cpupower.service
@@ -93,13 +97,13 @@ Source2001: cpupower.config
 
 # For a stable release kernel
 %if 0%{?stable_base}
-Source5000: patch-4.%{base_sublevel}.%{stable_base}.xz
+Source5000: patch-5.%{base_sublevel}.%{stable_base}.xz
 %else
 # non-released_kernel case
 # These are automagically defined by the rcrev value set up
 # near the top of this spec file.
 %if 0%{?rcrev}
-Source5000: patch-4.%{upstream_sublevel}-rc%{rcrev}.xz
+#Source5000: patch-5.%{upstream_sublevel}-rc%{rcrev}.xz
 %endif
 %endif
 
@@ -111,7 +115,6 @@ Patch1: 0001-perf-Remove-FSF-address.patch
 Patch3: 0001-tools-include-Sync-vmx.h-header-for-FSF-removal.patch
 Patch4: 0001-tools-lib-Remove-FSF-address.patch
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
-Patch8: 0001-Switch-to-python3.patch
 Name: kernel-tools
 Summary: Assortment of tools for the Linux kernel
 License: GPLv2
@@ -200,7 +203,6 @@ cd linux-%{kversion}
 %patch3 -p1
 %patch4 -p1
 %patch6 -p1
-%patch8 -p1
 
 # END OF PATCH APPLICATIONS
 
@@ -208,7 +210,7 @@ cd linux-%{kversion}
 # -p preserves timestamps
 # -n prevents creating ~backup files
 # -i specifies the interpreter for the shebang
-pathfix.py -pni "%{__python3} %{py3_shbang_opts}" tools/ tools/perf/scripts/python/*.py
+pathfix.py -pni "%{__python3} %{py3_shbang_opts}" tools/ tools/perf/scripts/python/*.py scripts/gen_compile_commands.py
 
 cp -a tools/perf tools/python3-perf
 
@@ -389,6 +391,7 @@ popd
 
 %files -n kernel-tools -f cpupower.lang
 %{_bindir}/cpupower
+%{_datadir}/bash-completion/completions/cpupower
 %ifarch %{ix86} x86_64
 %{_bindir}/centrino-decode
 %{_bindir}/powernow-k8-decode
@@ -436,6 +439,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Jan 07 2019 Laura Abbott <labbott@redhat.com> - 5.0.0-0.rc1.git0.1
+- Linux v5.0-rc1
+
 * Mon Dec 24 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.20.0-1
 - Linux v4.20.0
 
