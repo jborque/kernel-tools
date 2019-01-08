@@ -1,0 +1,53 @@
+From 2157a16c7e2fb0cac8d94533f2af29f12e52e821 Mon Sep 17 00:00:00 2001
+From: Laura Abbott <labbott@redhat.com>
+Date: Tue, 8 Jan 2019 13:39:36 -0800
+Subject: [PATCH] tools uapi asm: Update asm-generic/unistd.h
+Cc: Peter Zijlstra <peterz@infradead.org>
+To: Ingo Molnar <mingo@redhat.com>
+To: Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Jiri Olsa <jolsa@redhat.com>
+Cc: Namhyung Kim <namhyung@kernel.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>
+
+Commit 4e21565b7fd4 ("asm-generic: add kexec_file_load system
+call to unistd.h") added the system call to the generic header
+but not to the perf copy resulting a compile failure on aarch64
+When running mksyscalltbl
+
+BUILDSTDERR: <stdin>: In function 'main':
+BUILDSTDERR: <stdin>:273:44: error: '__NR_kexec_file_load' undeclared (first use in this function)
+BUILDSTDERR: <stdin>:273:44: note: each undeclared identifier is reported only once for each function it appears in
+
+Fix this by syncing up.
+
+Fixes: 4e21565b7fd4 ("asm-generic: add kexec_file_load system call to unistd.h")
+Signed-off-by: Laura Abbott <labbott@redhat.com>
+---
+Found this on Fedora when compiling 5.0-rc1, I hadn't seen a patch
+queued yet.
+---
+ tools/include/uapi/asm-generic/unistd.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/tools/include/uapi/asm-generic/unistd.h b/tools/include/uapi/asm-generic/unistd.h
+index c7f3321fbe43..d90127298f12 100644
+--- a/tools/include/uapi/asm-generic/unistd.h
++++ b/tools/include/uapi/asm-generic/unistd.h
+@@ -738,9 +738,11 @@ __SYSCALL(__NR_statx,     sys_statx)
+ __SC_COMP(__NR_io_pgetevents, sys_io_pgetevents, compat_sys_io_pgetevents)
+ #define __NR_rseq 293
+ __SYSCALL(__NR_rseq, sys_rseq)
++#define __NR_kexec_file_load 294
++__SYSCALL(__NR_kexec_file_load,     sys_kexec_file_load)
+ 
+ #undef __NR_syscalls
+-#define __NR_syscalls 294
++#define __NR_syscalls 295
+ 
+ /*
+  * 32 bit systems traditionally used different
+-- 
+2.20.1
+

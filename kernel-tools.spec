@@ -115,6 +115,7 @@ Patch1: 0001-perf-Remove-FSF-address.patch
 Patch3: 0001-tools-include-Sync-vmx.h-header-for-FSF-removal.patch
 Patch4: 0001-tools-lib-Remove-FSF-address.patch
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
+Patch7: 0001-tools-uapi-asm-Update-asm-generic-unistd.h.patch
 Name: kernel-tools
 Summary: Assortment of tools for the Linux kernel
 License: GPLv2
@@ -203,6 +204,7 @@ cd linux-%{kversion}
 %patch3 -p1
 %patch4 -p1
 %patch6 -p1
+%patch7 -p1
 
 # END OF PATCH APPLICATIONS
 
