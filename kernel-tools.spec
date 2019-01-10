@@ -5,7 +5,7 @@
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
 %global released_kernel 0
-%global baserelease 1
+%global baserelease 2
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
@@ -72,7 +72,7 @@ BuildRequires: kmod, patch, bash, tar, git
 BuildRequires: bzip2, xz, findutils, gzip, m4, perl-interpreter, perl(Carp), perl-devel, perl-generators, make, diffutils, gawk
 BuildRequires: gcc, binutils, redhat-rpm-config, hmaccalc
 BuildRequires: net-tools, hostname, bc, elfutils-devel
-BuildRequires: zlib-devel binutils-devel newt-devel python2-devel python3-docutils perl(ExtUtils::Embed) bison flex xz-devel
+BuildRequires: zlib-devel binutils-devel newt-devel python3-docutils perl(ExtUtils::Embed) bison flex xz-devel
 BuildRequires: audit-libs-devel glibc-devel glibc-static python3-devel
 BuildRequires: asciidoc xmlto
 # Used to mangle unversioned shebangs to be Python 3
@@ -147,12 +147,6 @@ of the Linux kernel.
 written in the Python programming language to use the interface \
 to manipulate perf events.
 
-%package -n python2-perf
-Summary: %{pythonperfsum}
-%{?python_provide:%python_provide python2-perf}
-%description -n python2-perf
-%{pythonperfdesc}
-
 %package -n python3-perf
 Summary: %{pythonperfsum}
 %{?python_provide:%python_provide python3-perf}
@@ -214,8 +208,6 @@ cd linux-%{kversion}
 # -i specifies the interpreter for the shebang
 pathfix.py -pni "%{__python3} %{py3_shbang_opts}" tools/ tools/perf/scripts/python/*.py scripts/gen_compile_commands.py
 
-cp -a tools/perf tools/python3-perf
-
 ###
 ### build
 ###
@@ -225,13 +217,10 @@ cd linux-%{kversion}
 
 %global perf_make \
   make EXTRA_CFLAGS="${RPM_OPT_FLAGS}" LDFLAGS="%{__global_ldflags}" %{?cross_opts} V=1 NO_PERF_READ_VDSO32=1 NO_PERF_READ_VDSOX32=1 WERROR=0 NO_LIBUNWIND=1 HAVE_CPLUS_DEMANGLE=1 NO_GTK2=1 NO_STRLCPY=1 NO_BIONIC=1 NO_JVMTI=1 prefix=%{_prefix}
-%global perf_python2 -C tools/perf PYTHON=%{__python2}
-%global perf_python3 -C tools/python3-perf PYTHON=%{__python3}
+%global perf_python3 -C tools/perf PYTHON=%{__python3}
 # perf
 # make sure check-headers.sh is executable
 chmod +x tools/perf/check-headers.sh
-chmod +x tools/python3-perf/check-headers.sh
-%{perf_make} %{perf_python2} all
 %{perf_make} %{perf_python3} all
 
 # cpupower
@@ -286,7 +275,7 @@ popd
 cd linux-%{kversion}
 
 # perf tool binary and supporting scripts/binaries
-%{perf_make} %{perf_python2} DESTDIR=%{buildroot} lib=%{_lib} install-bin install-traceevent-plugins
+%{perf_make} %{perf_python3} DESTDIR=%{buildroot} lib=%{_lib} install-bin install-traceevent-plugins
 # remove the 'trace' symlink.
 rm -f %{buildroot}%{_bindir}/trace
 # remove the perf-tips
@@ -303,7 +292,6 @@ rm -rf %{buildroot}/usr/lib/perf/include/bpf/
 
 # python-perf extension
 %{perf_make} %{perf_python3} DESTDIR=%{buildroot} install-python_ext
-%{perf_make} %{perf_python2} DESTDIR=%{buildroot} install-python_ext
 
 # perf man pages (note: implicit rpm magic compresses them later)
 install -d %{buildroot}/%{_mandir}/man1
@@ -383,10 +371,6 @@ popd
 %doc linux-%{kversion}/tools/perf/Documentation/examples.txt
 %license linux-%{kversion}/COPYING
 
-%files -n python2-perf
-%license linux-%{kversion}/COPYING
-%{python2_sitearch}/*
-
 %files -n python3-perf
 %license linux-%{kversion}/COPYING
 %{python3_sitearch}/*
@@ -441,6 +425,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Thu Jan 10 2019 Miro Hrončok <mhroncok@redhat.com> - 5.0.0-0.rc1.git0.2
+- Remove Python 2 subpackage
+
 * Mon Jan 07 2019 Laura Abbott <labbott@redhat.com> - 5.0.0-0.rc1.git0.1
 - Linux v5.0-rc1
 
