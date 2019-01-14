@@ -32,7 +32,7 @@
 %global upstream_sublevel 0
 
 # The rc snapshot level
-%global rcrev 1
+%global rcrev 2
 # Set rpm version accordingly
 %global rpmversion 5.%{upstream_sublevel}.0
 %endif
@@ -87,7 +87,7 @@ BuildRequires: rpm-build, elfutils
 BuildRequires: systemd
 
 # Source0: https://www.kernel.org/pub/linux/kernel/v4.x/linux-%{kversion}.tar.xz
-Source0: https://git.kernel.org/torvalds/t/linux-5.0-rc1.tar.gz
+Source0: https://git.kernel.org/torvalds/t/linux-5.0-rc2.tar.gz
 
 # Sources for kernel-tools
 Source2000: cpupower.service
@@ -115,7 +115,6 @@ Patch1: 0001-perf-Remove-FSF-address.patch
 Patch3: 0001-tools-include-Sync-vmx.h-header-for-FSF-removal.patch
 Patch4: 0001-tools-lib-Remove-FSF-address.patch
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
-Patch7: 0001-tools-uapi-asm-Update-asm-generic-unistd.h.patch
 Name: kernel-tools
 Summary: Assortment of tools for the Linux kernel
 License: GPLv2
@@ -198,7 +197,6 @@ cd linux-%{kversion}
 %patch3 -p1
 %patch4 -p1
 %patch6 -p1
-%patch7 -p1
 
 # END OF PATCH APPLICATIONS
 
@@ -425,6 +423,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Jan 14 2019 Laura Abbott <labbott@redhat.com> - 5.0.0-0.rc2.git0.1
+- Linux v5.0-rc2
+
 * Thu Jan 10 2019 Miro Hrončok <mhroncok@redhat.com> - 5.0.0-0.rc1.git0.2
 - Remove Python 2 subpackage
 

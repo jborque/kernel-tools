@@ -6,3 +6,4 @@ clog
 kernel-[234].*/
 perf-man-*.tar.gz
 /linux-5.0-rc1.tar.gz
+/linux-5.0-rc2.tar.gz
