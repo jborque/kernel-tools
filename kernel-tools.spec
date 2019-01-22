@@ -345,9 +345,7 @@ popd
 ### scripts
 ###
 
-%post -n kernel-tools-libs -p /sbin/ldconfig
-
-%postun -n kernel-tools-libs -p /sbin/ldconfig
+%ldconfig_scriptlets -n kernel-tools-libs
 
 %post -n kernel-tools
 %systemd_post cpupower.service
