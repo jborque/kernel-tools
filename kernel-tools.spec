@@ -136,6 +136,7 @@ and the supporting documentation.
 
 %package -n perf
 Summary: Performance monitoring for the Linux kernel
+Requires: bzip2
 License: GPLv2
 %description -n perf
 This package contains the perf tool, which enables performance monitoring
