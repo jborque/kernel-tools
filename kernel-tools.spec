@@ -5,7 +5,7 @@
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
 %global released_kernel 0
-%global baserelease 1
+%global baserelease 2
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
@@ -422,6 +422,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Fri Jan 25 2019 Laura Abbott <labbott@redhat.com> - 5.0.0-0.rc3.git0.2
+- Rebuild for gcc9
+
 * Mon Jan 14 2019 Laura Abbott <labbott@redhat.com> - 5.0.0-0.rc3.git0.1
 - Linux v5.0-rc3
 
