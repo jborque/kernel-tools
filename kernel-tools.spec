@@ -5,7 +5,7 @@
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
 %global released_kernel 0
-%global baserelease 2
+%global baserelease 1
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
@@ -32,7 +32,7 @@
 %global upstream_sublevel 0
 
 # The rc snapshot level
-%global rcrev 4
+%global rcrev 5
 # Set rpm version accordingly
 %global rpmversion 5.%{upstream_sublevel}.0
 %endif
@@ -87,7 +87,7 @@ BuildRequires: rpm-build, elfutils
 BuildRequires: systemd
 
 # Source0: https://www.kernel.org/pub/linux/kernel/v4.x/linux-%{kversion}.tar.xz
-Source0: https://git.kernel.org/torvalds/t/linux-5.0-rc4.tar.gz
+Source0: https://git.kernel.org/torvalds/t/linux-5.0-rc5.tar.gz
 
 # Sources for kernel-tools
 Source2000: cpupower.service
@@ -422,6 +422,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Feb 04 2019 Laura Abbott <labbott@redhat.com> - 5.0.0-0.rc5.git0.1
+- Linux v5.0-rc5
+
 * Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 5.0.0-0.rc4.git0.2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
