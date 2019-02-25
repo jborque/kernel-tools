@@ -32,7 +32,7 @@
 %global upstream_sublevel 0
 
 # The rc snapshot level
-%global rcrev 7
+%global rcrev 8
 # Set rpm version accordingly
 %global rpmversion 5.%{upstream_sublevel}.0
 %endif
@@ -87,7 +87,7 @@ BuildRequires: rpm-build, elfutils
 BuildRequires: systemd
 
 # Source0: https://www.kernel.org/pub/linux/kernel/v4.x/linux-%{kversion}.tar.xz
-Source0: https://git.kernel.org/torvalds/t/linux-5.0-rc7.tar.gz
+Source0: https://git.kernel.org/torvalds/t/linux-5.0-rc8.tar.gz
 
 # Sources for kernel-tools
 Source2000: cpupower.service
@@ -422,6 +422,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Feb 25 2019 Laura Abbott <labbott@redhat.com> - 5.0.0-0.rc8.git0.1
+- Linux v5.0-rc8
+
 * Sun Feb 17 2019 Laura Abbott <labbott@redhat.com> - 5.0.0-0.rc7.git0.1
 - Linux v5.0-rc7
 
