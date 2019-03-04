@@ -4,7 +4,7 @@
 # For a stable, released kernel, released_kernel should be 1. For rawhide
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
-%global released_kernel 0
+%global released_kernel 1
 %global baserelease 1
 %global fedora_build %{baserelease}
 
@@ -28,8 +28,7 @@
 ## The not-released-kernel case ##
 %else
 # The next upstream release sublevel (base_sublevel+1)
-# %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
-%global upstream_sublevel 0
+%global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 
 # The rc snapshot level
 %global rcrev 8
@@ -57,8 +56,7 @@
 %endif
 
 # The kernel tarball/base version
-# %global kversion 5.%{base_sublevel}
-%global kversion 5.%{base_sublevel}-rc%rcrev
+%global kversion 5.%{base_sublevel}
 %global KVERREL %{version}-%{release}.%{_target_cpu}
 
 %global _debuginfo_subpackages 1
@@ -86,8 +84,7 @@ BuildRequires: rpm-build, elfutils
 %{?systemd_requires}
 BuildRequires: systemd
 
-# Source0: https://www.kernel.org/pub/linux/kernel/v4.x/linux-%{kversion}.tar.xz
-Source0: https://git.kernel.org/torvalds/t/linux-5.0-rc8.tar.gz
+Source0: https://www.kernel.org/pub/linux/kernel/v5.x/linux-%{kversion}.tar.xz
 
 # Sources for kernel-tools
 Source2000: cpupower.service
@@ -103,7 +100,7 @@ Source5000: patch-5.%{base_sublevel}.%{stable_base}.xz
 # These are automagically defined by the rcrev value set up
 # near the top of this spec file.
 %if 0%{?rcrev}
-#Source5000: patch-5.%{upstream_sublevel}-rc%{rcrev}.xz
+Source5000: patch-5.%{upstream_sublevel}-rc%{rcrev}.xz
 %endif
 %endif
 
@@ -422,6 +419,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Mar 04 2019 Laura Abbott <labbott@redhat.com> - 5.0.0-1
+- Linux v5.0.0
+
 * Mon Feb 25 2019 Laura Abbott <labbott@redhat.com> - 5.0.0-0.rc8.git0.1
 - Linux v5.0-rc8
 
