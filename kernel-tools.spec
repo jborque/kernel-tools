@@ -337,6 +337,8 @@ make INSTALL_ROOT=%{buildroot} install-tools
 popd
 pushd tools/bpf/bpftool
 make DESTDIR=%{buildroot} prefix=%{_prefix} bash_compdir=%{_sysconfdir}/bash_completion.d/ mandir=%{_mandir} install doc-install
+# man-pages packages this (rhbz #1686954)
+rm %{buildroot}%{_mandir}/man7/bpf-helpers.7
 popd
 
 ###
@@ -415,10 +417,12 @@ popd
 %{_mandir}/man8/bpftool-prog.8.gz
 %{_mandir}/man8/bpftool-perf.8.gz
 %{_mandir}/man8/bpftool.8.gz
-%{_mandir}/man7/bpf-helpers.7.gz
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Mar 18 2019 Jeremy Cline <jcline@fedoraproject.org>
+- Drop the bpf-helpers manual page as man-pages packages it
+
 * Mon Mar 04 2019 Laura Abbott <labbott@redhat.com> - 5.0.0-1
 - Linux v5.0.0
 
