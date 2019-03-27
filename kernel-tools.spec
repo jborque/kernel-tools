@@ -420,7 +420,7 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
-* Tue Mar 19 2019 Laura Abbott <labbott@redhat.com> - 5.0.5-300
+* Wed Mar 27 2019 Laura Abbott <labbott@redhat.com> - 5.0.5-300
 - Linux v5.0.5
 
 * Tue Mar 19 2019 Laura Abbott <labbott@redhat.com> - 5.0.4-300
