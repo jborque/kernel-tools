@@ -17,7 +17,7 @@
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%global stable_update 7
+%global stable_update 9
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %global stablerev %{stable_update}
@@ -420,6 +420,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Apr 22 2019 Laura Abbott <labbott@redhat.com> - 5.0.9-300
+- Linux v5.0.9
+
 * Mon Apr 08 2019 Laura Abbott <labbott@redhat.com> - 5.0.7-300
 - Linux v5.0.7
 
