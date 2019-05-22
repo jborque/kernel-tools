@@ -11,13 +11,13 @@
 # base_sublevel is the kernel version we're starting with and patching
 # on top of -- for example, 3.1-rc7-git1 starts with a 3.0 base,
 # which yields a base_sublevel of 0.
-%global base_sublevel 0
+%global base_sublevel 1
 
 ## If this is a released kernel ##
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%global stable_update 12
+%global stable_update 4
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %global stablerev %{stable_update}
@@ -31,7 +31,7 @@
 %global upstream_sublevel %(echo $((%{base_sublevel} + 1)))
 
 # The rc snapshot level
-%global rcrev 8
+%global rcrev 0
 # Set rpm version accordingly
 %global rpmversion 5.%{upstream_sublevel}.0
 %endif
@@ -176,6 +176,19 @@ License: GPLv2
 This package contains the bpftool, which allows inspection and simple
 manipulation of eBPF programs and maps.
 
+%package -n libbpf
+Summary: The bpf library from kernel source
+License: GPLv2
+%description -n libbpf
+This package contains the kernel source bpf library.
+
+%package -n libbpf-devel
+Summary: Developement files for the bpf library from kernel source
+License: GPLv2
+%description -n libbpf-devel
+This package includes libraries and header files needed for development
+of applications which use bpf library from kernel source.
+
 %prep
 %setup -q -n kernel-%{kversion}%{?dist} -c
 
@@ -252,6 +265,9 @@ make
 popd
 pushd tools/bpf/bpftool
 make
+popd
+pushd tools/lib/bpf
+make V=1
 popd
 
 # Build the docs
@@ -340,6 +356,9 @@ make DESTDIR=%{buildroot} prefix=%{_prefix} bash_compdir=%{_sysconfdir}/bash_com
 # man-pages packages this (rhbz #1686954)
 rm %{buildroot}%{_mandir}/man7/bpf-helpers.7
 popd
+pushd tools/lib/bpf
+make DESTDIR=%{buildroot} prefix=%{_prefix} libdir=%{_libdir} V=1 install install_headers
+popd
 
 ###
 ### scripts
@@ -416,10 +435,28 @@ popd
 %{_mandir}/man8/bpftool-net.8.gz
 %{_mandir}/man8/bpftool-prog.8.gz
 %{_mandir}/man8/bpftool-perf.8.gz
+%{_mandir}/man8/bpftool-feature.8.gz
 %{_mandir}/man8/bpftool.8.gz
 %license linux-%{kversion}/COPYING
 
+%files -n libbpf
+%{_libdir}/libbpf.so.0
+%{_libdir}/libbpf.so.0.0.2
+%license linux-%{kversion}/COPYING
+
+%files -n libbpf-devel
+%{_libdir}/libbpf.a
+%{_libdir}/libbpf.so
+%{_includedir}/bpf/bpf.h
+%{_includedir}/bpf/btf.h
+%{_includedir}/bpf/libbpf.h
+%{_includedir}/bpf/xsk.h
+%license linux-%{kversion}/COPYING
+
 %changelog
+* Mon May 06 2019 Jeremy Cline <jcline@redhat.com> - 5.1.0-1
+- Linux v5.1.4
+
 * Sat May 04 2019 Laura Abbott <labbott@redhat.com> - 5.0.12-300
 - Linux v5.0.12
 
@@ -503,127 +540,3 @@ popd
 
 * Mon Nov 05 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.20.0-0.rc1.git0.1
 - Linux v4.20-rc1
-
-* Mon Oct 22 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-1
-- Linux v4.19
-
-* Mon Oct 15 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc8.git0.1
-- Linux v4.19-rc7
-
-* Mon Oct 08 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc7.git0.1
-- Linux v4.19-rc7
-
-* Tue Oct 02 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc6.git0.1
-- Linux v4.19-rc6
-
-* Mon Sep 24 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc5.git0.1
-- Linux v4.19-rc5
-
-* Mon Sep 17 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc4.git0.1
-- Linux v4.19-rc4
-
-* Mon Sep 10 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc3.git0.1
-- Linux v4.19-rc3
-
-* Mon Sep 03 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc2.git0.1
-- Linux v4.19-rc2
-
-* Mon Aug 27 2018 Jeremy Cline <jeremy@jcline.org> - 4.19.0-0.rc1.git0.1
-- Linux v4.19-rc1
-
-* Mon Aug 13 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-1
-- Linux v4.18
-
-* Mon Aug 06 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-0.rc8.git0.1
-- Linux v4.18-rc8
-
-* Mon Jul 16 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-0.rc6.git0.1
-- Linux v4.18-rc6
-
-* Mon Jul 16 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-0.rc5.git0.1
-- Linux v4.18-rc5
-
-* Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 4.18.0-0.rc4.git0.2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
-
-* Mon Jul 09 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-0.rc4.git0.1
-- Linux v4.18-rc4
-
-* Tue Jul 03 2018 Petr Pisar <ppisar@redhat.com> - 4.18.0-0.rc3.git0.2
-- Perl 5.28 rebuild
-
-* Mon Jul 02 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-0.rc3.git0.1
-- Linux v4.18-rc3
-
-* Fri Jun 29 2018 Jeremy Cline <jcline@redhat.com> - 4.18.0-0.rc2.git0.3
-- Fix the build for Python 3.7 (rhbz 1593431)
-
-* Fri Jun 29 2018 Jitka Plesnikova <jplesnik@redhat.com> - 4.18.0-0.rc2.git0.2
-- Perl 5.28 rebuild
-
-* Mon Jun 25 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-0.rc2.git0.1
-- Linux v4.18-rc2
-
-* Tue Jun 19 2018 Miro Hrončok <mhroncok@redhat.com> - 4.18.0-0.rc1.git0.2
-- Rebuilt for Python 3.7
-
-* Mon Jun 18 2018 Laura Abbott <labbott@redhat.com> - 4.18.0-0.rc1.git0.1
-- Linux v4.18-rc1
-
-* Mon Jun 04 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.0-1
-- Linux v4.17
-
-* Tue May 29 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.0-0.rc7.git0.1
-- Linux v4.17-rc7
-
-* Tue May 22 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.0-0.rc6.git0.1
-- Linux v4.17-rc6
-
-* Mon May 14 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.0-0.rc5.git0.1
-- Linux v4.17-rc5
-
-* Mon May 07 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.0-0.rc4.git0.1
-- Linux v4.17-rc4
-
-* Mon Apr 23 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.0-0.rc2.git0.1
-- Linux v4.17-rc2
-
-* Mon Apr 16 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.0-0.rc1.git0.1
-- Linux v4.17-rc1
-
-* Mon Apr 02 2018 Jeremy Cline <jeremy@jcline.org> - 4.16.0-1
-- Linux 4.16
-- New bpftool sub-package
-
-* Mon Mar 26 2018 Jeremy Cline <jeremy@jcline.org> - 4.16.0-0.rc7.git0.1
-- Linux 4.16-rc7
-
-* Mon Mar 19 2018 Jeremy Cline <jeremy@jcline.org> - 4.16.0-0.rc6.git0.1
-- Linux 4.16-rc6
-
-* Mon Mar 12 2018 Jeremy Cline <jeremy@jcline.org> - 4.16.0-0.rc5.git0.1
-- Linux 4.16-rc5
-
-* Tue Mar 06 2018 Jeremy Cline <jeremy@jcline.org> - 4.16.0-0.rc4.git0.1
-- Linux 4.16-rc4
-
-* Mon Feb 26 2018 Jeremy Cline <jeremy@jcline.org> - 4.16.0-0.rc3.git0.1
-- Linux 4.16-rc3
-
-* Mon Feb 19 2018 Jeremy Cline <jeremy@jcline.org> - 4.16.0-0.rc2.git0.1
-- Linux 4.16-rc2
-
-* Mon Jan 29 2018 Laura Abbott <labbott@redhat.com> - 4.15.0-1
-- Linux v4.15
-
-* Tue Jan 23 2018 Laura Abbott <labbott@redhat.com> - 4.15.0-0.rc9.git0.1
-- Linux 4.15-rc9
-
-* Sat Jan 20 2018 Björn Esser <besser82@fedoraproject.org> - 4.15.0-0.rc8.git0.2
-- Rebuilt for switch to libxcrypt
-
-* Tue Jan 16 2018 Laura Abbott <labbott@redhat.com> - 4.15.0-0.rc8.git0.1
-- Linux 4.15-rc8
-
-* Fri Jan 05 2018 Laura Abbott <labbott@redhat.com> - 4.15.0-0.rc7.git0.1
-- Fork from the kernel package
