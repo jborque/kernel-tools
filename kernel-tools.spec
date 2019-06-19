@@ -17,7 +17,7 @@
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%global stable_update 6
+%global stable_update 12
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %global stablerev %{stable_update}
@@ -454,6 +454,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Wed Jun 19 2019 Jeremy Cline <jcline@redhat.com> - 5.1.12-300
+- Linux v5.1.12
+
 * Mon Jun 03 2019 Jeremy Cline <jcline@redhat.com> - 5.1.6-300
 - Linux v5.1.6
 
