@@ -5,19 +5,19 @@
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
 %global released_kernel 1
-%global baserelease 300
+%global baserelease 200
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
 # on top of -- for example, 3.1-rc7-git1 starts with a 3.0 base,
 # which yields a base_sublevel of 0.
-%global base_sublevel 1
+%global base_sublevel 2
 
 ## If this is a released kernel ##
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%global stable_update 12
+%global stable_update 4
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %global stablerev %{stable_update}
@@ -108,9 +108,6 @@ Source5000: patch-5.%{upstream_sublevel}-rc%{rcrev}.xz
 Patch0: 0001-iio-Use-event-header-from-kernel-tree.patch
 
 # rpmlint cleanup
-Patch1: 0001-perf-Remove-FSF-address.patch
-Patch3: 0001-tools-include-Sync-vmx.h-header-for-FSF-removal.patch
-Patch4: 0001-tools-lib-Remove-FSF-address.patch
 Patch6: 0002-perf-Don-t-make-sourced-script-executable.patch
 Name: kernel-tools
 Summary: Assortment of tools for the Linux kernel
@@ -204,9 +201,6 @@ cd linux-%{kversion}
 %endif
 
 %patch0 -p1
-%patch1 -p1
-%patch3 -p1
-%patch4 -p1
 %patch6 -p1
 
 # END OF PATCH APPLICATIONS
@@ -430,6 +424,7 @@ popd
 %files -n bpftool
 %{_sbindir}/bpftool
 %{_sysconfdir}/bash_completion.d/bpftool
+%{_mandir}/man8/bpftool-btf.8.gz
 %{_mandir}/man8/bpftool-cgroup.8.gz
 %{_mandir}/man8/bpftool-map.8.gz
 %{_mandir}/man8/bpftool-net.8.gz
@@ -441,19 +436,24 @@ popd
 
 %files -n libbpf
 %{_libdir}/libbpf.so.0
-%{_libdir}/libbpf.so.0.0.2
+%{_libdir}/libbpf.so.0.0.3
 %license linux-%{kversion}/COPYING
 
 %files -n libbpf-devel
 %{_libdir}/libbpf.a
 %{_libdir}/libbpf.so
+%{_libdir}/pkgconfig/libbpf.pc
 %{_includedir}/bpf/bpf.h
 %{_includedir}/bpf/btf.h
 %{_includedir}/bpf/libbpf.h
+%{_includedir}/bpf/libbpf_util.h
 %{_includedir}/bpf/xsk.h
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Mon Jul 29 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 5.2.4-200
+- Linux v5.2.4
+
 * Wed Jun 19 2019 Jeremy Cline <jcline@redhat.com> - 5.1.12-300
 - Linux v5.1.12
 
