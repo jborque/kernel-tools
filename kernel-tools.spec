@@ -17,7 +17,7 @@
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%global stable_update 7
+%global stable_update 9
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %global stablerev %{stable_update}
@@ -451,6 +451,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Fri Aug 16 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 5.2.9-200
+- Linux v5.2.9
+
 * Thu Aug 08 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 5.2.7-200
 - Linux v5.2.7
 
