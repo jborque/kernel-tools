@@ -5,7 +5,7 @@
 # and/or a kernel built from an rc or git snapshot, released_kernel should
 # be 0.
 %global released_kernel 1
-%global baserelease 200
+%global baserelease 201
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
@@ -451,6 +451,9 @@ popd
 %license linux-%{kversion}/COPYING
 
 %changelog
+* Sat Aug 31 2019 Jerónimo Borque <jeronimo@borque.com.ar> - 5.2.11-201
+- Bumped to match kernel
+
 * Thu Aug 29 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 5.2.11-200
 - Linux v5.2.11
 
